@@ -1,0 +1,345 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gene's Lechon – Walang Kapantay!</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet"/>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     TOPBAR
+═══════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAV
+═══════════════════════════════════════════ -->
+<header>
+  <nav class="nav-main">
+
+    <a href="#" class="nav-logo">
+      <div class="logo-icon">
+        <!-- ✏️ REPLACE src below with your actual logo image path, e.g. src="img/logo.png" -->
+        <img src="logo.png" alt="Gene's Lechon Logo"
+          onerror="this.outerHTML='🐷'"
+          style="width:38px;height:38px;object-fit:contain;border-radius:50%;"/>
+      </div>
+      <div class="logo-text">
+        <strong>Gene's Lechon</strong>
+        <span>Est. 2010 • CDO</span>
+      </div>
+    </a>
+
+
+
+    <div class="nav-right">
+      <a href="#menu"    class="nav-link">Menu</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <a href="#" class="nav-link" onclick="openTracker(); return false;">
+        <i class="fas fa-search" style="font-size:11px;margin-right:4px;"></i>Track Order
+      </a>
+
+      <button class="btn-order" onclick="toggleCart()">
+        <i class="fas fa-shopping-bag"></i>
+        <span>My Order</span>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+
+      <button class="hamburger" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+  </nav>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+
+    <div class="hero-content">
+      <div class="hero-tag">🏆 Cagayan de Oro's Favorite</div>
+      <h1>Lechon</h1>
+      <p class="hero-sub">Walang Kapantay ang Sarap!</p>
+      <p class="hero-caption">Slow-roasted to golden perfection, every single day</p>
+      <div class="hero-btns">
+        <button class="btn-hero-primary"
+          onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+          <i class="fas fa-utensils"></i> Browse Menu
+        </button>
+        <button class="btn-hero-secondary"
+          onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+          <i class="fas fa-phone"></i> Get in Touch
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <span class="hero-emoji">🐷</span>
+      <div class="hero-price-badge">
+        <span class="starts">STARTS AT</span>
+        <span class="price"><span>₱</span>700</span>
+        <span class="varies">price varies</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MENU SECTION
+═══════════════════════════════════════════ -->
+<section id="menu">
+  <div class="section-inner">
+
+    <div class="section-header">
+      <h2 class="section-title">Our <span>Menu</span></h2>
+      <span id="productCount" style="font-size:13px;color:var(--grey);font-weight:700;"></span>
+    </div>
+
+    <!-- Category tabs (filled by app.js) -->
+    <div class="cat-tabs" id="catTabs">
+      <button class="cat-tab active" onclick="filterCat('all', this)">All Products</button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <i class="fas fa-search"></i>
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search products..."
+        oninput="handleSearch(this.value)"
+      />
+    </div>
+
+    <!-- Product grid (filled by app.js) -->
+    <div id="productsGrid" class="products-grid">
+      <!-- Skeleton placeholders while Firebase loads -->
+      <div class="skeleton"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line short"></div></div></div>
+      <div class="skeleton"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line short"></div></div></div>
+      <div class="skeleton"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line short"></div></div></div>
+      <div class="skeleton"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line short"></div></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MAP + CONTACT
+═══════════════════════════════════════════ -->
+<section id="contact" style="background:white;">
+  <div class="section-inner">
+    <h2 class="section-title" style="margin-bottom:28px;">Find <span>Us</span></h2>
+
+    <div class="map-contact">
+
+      <iframe
+        class="map-embed"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3941.8!2d124.6139!3d8.5043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32fff3c1b2a5e4b7%3A0x0!2sBulua%2C%20Cagayan%20de%20Oro%20City%2C%20Misamis%20Oriental!5e0!3m2!1sen!2sph!4v1700000000002"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+
+      <div class="contact-panel">
+        <div>
+          <h3>Visit <span>Gene's Lechon</span></h3>
+          <p style="color:var(--grey);font-size:14px;margin-top:4px;">Fresh lechon, ready daily. Come in or order ahead!</p>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-info">
+            <strong>Our Location</strong>
+            <span>Gene's Lechon House, Zone 4, Lower Bulua<br/>Cagayan de Oro City, Misamis Oriental, 9000</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+          <div class="contact-info">
+            <strong>Call / Viber / SMS</strong>
+            <span>(088) 123-4567 | +63 917 000 0000</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-info">
+            <strong>Email Us</strong>
+            <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="84ebf6e0e1f6f7c4e3e1eae1f7e8e1e7ecebeaaae7ebe9">[email&#160;protected]</a></span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-clock"></i></div>
+          <div class="contact-info">
+            <strong>Store Hours</strong>
+            <span>Daily: 8:00 AM – 10:00 PM</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      <div class="logo-white">
+        <div class="logo-icon">🐷</div>
+        <div>
+          <strong>Gene's Lechon</strong>
+          <span>Cagayan de Oro's Finest</span>
+        </div>
+      </div>
+      <p>Slow-roasted Filipino lechon made with love and tradition. Serving Cagayan de Oro since 2010.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#menu">Menu</a>
+      <a href="#contact">Our Location</a>
+      <a href="#" onclick="toggleCart()">My Order</a>
+      <a href="#" onclick="openTracker()">🔍 Track Inquiry</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="tel:0881234567">(088) 123-4567</a>
+      <a href="/cdn-cgi/l/email-protection#29465b4d4c5b5a694e4c474c5a454c4a414647074a4644"><span class="__cf_email__" data-cfemail="f59a8791908786b592909b90869990969d9a9bdb969a98">[email&#160;protected]</span></a>
+      <a href="#">Facebook Page</a>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Gene's Lechon. All rights reserved.</span>
+    <span>Made with ❤️ in CDO</span>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     CART DRAWER
+═══════════════════════════════════════════ -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>🛒 My Order</h3>
+    <button class="cart-close-btn" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items-list" id="cartItemsList">
+    <div class="cart-empty">
+      <i class="fas fa-shopping-bag"></i>
+      <p>No items added yet</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">₱0.00</span>
+    </div>
+    <button class="btn-inquire" id="inquireBtn" onclick="openInquiryModal()" disabled>
+      <i class="fas fa-paper-plane"></i> Send Inquiry
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     INQUIRY MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="inquiryModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>📋 Order Inquiry</h3>
+      <button class="modal-close" onclick="closeInquiryModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="inquiryModalBody">
+      <!-- Filled dynamically by app.js -->
+    </div>
+  </div>
+</div>
+
+<!-- TRACK INQUIRY CTA SECTION -->
+<section id="track" style="background:var(--dark);padding:50px 0;">
+  <div class="section-inner" style="text-align:center;">
+    <div class="track-cta">
+      <div class="track-cta-icon">🔍</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,34px);color:white;font-weight:900;margin-bottom:10px;">
+        Track Your <span style="color:var(--gold);">Inquiry</span>
+      </h2>
+      <p style="color:rgba(255,255,255,0.65);font-size:14px;max-width:400px;margin:0 auto 28px;">
+        Already submitted an inquiry? Check its status using your name, email, phone number, or the order ID we gave you (e.g. INQ-358778).
+      </p>
+      <button class="btn-track-inquiry" onclick="openTracker()">
+        <i class="fas fa-search"></i> Track My Inquiry
+      </button>
+    </div>
+  </div>
+</section>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+  <a href="#menu"    onclick="toggleMobileMenu()">Menu</a>
+  <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+  <a href="#"        onclick="toggleMobileMenu(); toggleCart()">My Order</a>
+  <a href="#"        onclick="toggleMobileMenu(); openTracker()">🔍 Track Inquiry</a>
+</div>
+
+<!-- Toast container -->
+<div id="toastContainer"></div>
+
+<!-- Firebase + App -->
+<script type="module" src="js/app.js"></script>
+
+<!-- ═══════════════════════════════════════════
+     TRACK INQUIRY MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="trackerModal">
+  <div class="modal-box" style="max-width:520px;">
+    <div class="modal-header" style="background:var(--dark);">
+      <h3>🔍 Track Your Inquiry</h3>
+      <button class="modal-close" onclick="closeTracker()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="trackerBody">
+      <p style="font-size:13px;color:var(--grey);margin-bottom:18px;line-height:1.6;">
+        Enter any of the following to find your inquiry: your <strong>Inquiry ID</strong> (e.g. INQ-358778), <strong>email address</strong>, or <strong>phone number</strong>.
+      </p>
+      <div class="form-group">
+        <label><i class="fas fa-search" style="color:var(--red);margin-right:5px;"></i> Search</label>
+        <input type="text" id="trackInput" placeholder="INQ-358778 / email / phone number"
+          oninput="clearTrackResult()"
+          onkeydown="if(event.key==='Enter') searchInquiry()"/>
+      </div>
+      <button class="btn-submit-inquiry" id="trackBtn" onclick="searchInquiry()" style="margin-top:4px;">
+        <i class="fas fa-search"></i> Find Inquiry
+      </button>
+      <div id="trackResult" style="margin-top:20px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════�
