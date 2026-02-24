@@ -112,11 +112,12 @@ header {
 
 .btn-order {
   background: white; color: var(--red);
-  border: none; padding: 10px 22px; border-radius: 25px;
+  border: none; padding: 10px 18px; border-radius: 25px;
   font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px;
   cursor: pointer; display: flex; align-items: center; gap: 7px;
   transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
   box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  position: relative;
 }
 .btn-order:hover {
   transform: translateY(-2px);
@@ -125,11 +126,14 @@ header {
 }
 
 .cart-badge {
-  background: var(--gold); color: white;
-  border-radius: 50%; width: 20px; height: 20px;
+  background: var(--red); color: white;
+  border-radius: 50%; min-width: 20px; height: 20px;
   font-size: 11px; font-weight: 900;
   display: inline-flex; align-items: center; justify-content: center;
-  margin-left: 2px;
+  padding: 0 4px;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: transform 0.2s;
 }
 
 .hamburger {
@@ -634,7 +638,23 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 50px 0 
 @media (max-width: 680px) {
   .nav-location, .nav-link { display: none; }
   .hamburger { display: flex; }
-  .btn-order span { display: none; }
+  /* On mobile: hide "My Order" text, shrink button to icon only */
+  .btn-order span:not(.cart-badge) { display: none; }
+  .btn-order {
+    padding: 8px 10px;
+    border-radius: 50%;
+    width: 40px; height: 40px;
+    justify-content: center;
+    gap: 0;
+  }
+  /* Badge floats outside as a red dot in top-right corner of the button */
+  .cart-badge {
+    position: absolute;
+    top: -6px; right: -6px;
+    min-width: 20px; height: 20px;
+    font-size: 11px;
+    margin-left: 0;
+  }
   .hero { min-height: 360px; }
   .hero-inner { padding: 40px 20px; }
   .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
