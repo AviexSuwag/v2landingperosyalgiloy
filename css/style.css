@@ -301,16 +301,16 @@ section { padding: 60px 0; }
 .card-body  { padding: 14px 16px 16px; }
 .card-name  { font-weight: 800; font-size: 15px; margin-bottom: 4px; color: var(--dark); }
 .card-unit  { font-size: 12px; color: var(--grey); margin-bottom: 10px; }
-.card-footer{ display: flex; align-items: center; justify-content: space-between; }
-.card-price { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 20px; color: var(--red); }
+.card-footer{ display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: nowrap; overflow: hidden; }
+.card-price { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 17px; color: var(--red); flex-shrink: 0; }
 
 .btn-add {
   background: var(--red); color: white; border: none;
-  padding: 8px 14px; border-radius: 20px;
-  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 12px;
-  cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 10px; border-radius: 20px;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 11px;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
   transition: background var(--transition), transform var(--transition);
-  flex-shrink: 0; white-space: nowrap;
+  flex-shrink: 0; white-space: nowrap; max-width: 100%;
 }
 .btn-add:hover { background: var(--red-dark); transform: translateY(-2px); }
 
@@ -639,6 +639,10 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 50px 0 
   .hero-inner { padding: 40px 20px; }
   .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
   .card-img-placeholder { height: 130px; }
+  .card-body { padding: 10px 12px 12px; }
+  .card-name { font-size: 13px; margin-bottom: 6px; }
+  .card-price { font-size: 15px; }
+  .btn-add { font-size: 10px; padding: 5px 8px; gap: 3px; }
   .form-row { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; gap: 24px; }
   .footer-bottom { flex-direction: column; text-align: center; }
@@ -646,10 +650,11 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 50px 0 
   .cart-drawer { width: 100vw; }
 }
 @media (max-width: 400px) {
-  .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .card-body { padding: 10px 12px 12px; }
-  .card-name  { font-size: 13px; }
-  .card-price { font-size: 16px; }
+  .products-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .card-body { padding: 8px 10px 10px; }
+  .card-name  { font-size: 12px; }
+  .card-price { font-size: 14px; }
+  .btn-add { font-size: 10px; padding: 5px 7px; }
 }
 
 /* ===== TRACK INQUIRY CTA ===== */
