@@ -1,8 +1,3 @@
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,12 +29,7 @@
   <nav class="nav-main">
 
     <a href="#" class="nav-logo">
-      <div class="logo-icon">
-        <!-- ✏️ REPLACE src below with your actual logo image path, e.g. src="img/logo.png" -->
-        <img src="logo.png" alt="Gene's Lechon Logo"
-          onerror="this.outerHTML='🐷'"
-          style="width:38px;height:38px;object-fit:contain;border-radius:50%;"/>
-      </div>
+      <div class="logo-icon">🐷</div>
       <div class="logo-text">
         <strong>Gene's Lechon</strong>
         <span>Est. 2010 • CDO</span>
@@ -88,6 +78,9 @@
         <button class="btn-hero-secondary"
           onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
           <i class="fas fa-phone"></i> Get in Touch
+        </button>
+        <button class="btn-hero-track" onclick="openTracker()">
+          <i class="fas fa-search"></i> Track Inquiry
         </button>
       </div>
     </div>
@@ -144,6 +137,26 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
+     TRACK INQUIRY CTA — appears before map/contact
+═══════════════════════════════════════════ -->
+<section id="track" style="background:var(--dark);padding:50px 0;">
+  <div class="section-inner" style="text-align:center;">
+    <div class="track-cta">
+      <div class="track-cta-icon">🔍</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,34px);color:white;font-weight:900;margin-bottom:10px;">
+        Track Your <span style="color:var(--gold);">Inquiry</span>
+      </h2>
+      <p style="color:rgba(255,255,255,0.65);font-size:14px;max-width:400px;margin:0 auto 28px;">
+        Already submitted an inquiry? Check its status using your name, email, phone number, or the order ID we gave you (e.g. INQ-358778).
+      </p>
+      <button class="btn-track-inquiry" onclick="openTracker()">
+        <i class="fas fa-search"></i> Track My Inquiry
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
      MAP + CONTACT
 ═══════════════════════════════════════════ -->
 <section id="contact" style="background:white;">
@@ -154,7 +167,7 @@
 
       <iframe
         class="map-embed"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3941.8!2d124.6139!3d8.5043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32fff3c1b2a5e4b7%3A0x0!2sBulua%2C%20Cagayan%20de%20Oro%20City%2C%20Misamis%20Oriental!5e0!3m2!1sen!2sph!4v1700000000002"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126063.66673474684!2d124.5885219!3d8.4542363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32fff5b7bfa7a9e5%3A0x1fe67c89a2c3e6c5!2sCagayan%20de%20Oro%2C%20Misamis%20Oriental!5e0!3m2!1sen!2sph!4v1700000000000"
         allowfullscreen=""
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade">
@@ -170,7 +183,7 @@
           <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
           <div class="contact-info">
             <strong>Our Location</strong>
-            <span>Gene's Lechon House, Zone 4, Lower Bulua<br/>Cagayan de Oro City, Misamis Oriental, 9000</span>
+            <span>123 Lechon Street, Divisoria<br/>Cagayan de Oro City, 9000</span>
           </div>
         </div>
 
@@ -194,7 +207,7 @@
           <div class="contact-icon"><i class="fas fa-clock"></i></div>
           <div class="contact-info">
             <strong>Store Hours</strong>
-            <span>Daily: 8:00 AM – 10:00 PM</span>
+            <span>Daily: 7:00 AM – 8:00 PM</span>
           </div>
         </div>
       </div>
@@ -284,25 +297,8 @@
   </div>
 </div>
 
-<!-- TRACK INQUIRY CTA SECTION -->
-<section id="track" style="background:var(--dark);padding:50px 0;">
-  <div class="section-inner" style="text-align:center;">
-    <div class="track-cta">
-      <div class="track-cta-icon">🔍</div>
-      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,34px);color:white;font-weight:900;margin-bottom:10px;">
-        Track Your <span style="color:var(--gold);">Inquiry</span>
-      </h2>
-      <p style="color:rgba(255,255,255,0.65);font-size:14px;max-width:400px;margin:0 auto 28px;">
-        Already submitted an inquiry? Check its status using your name, email, phone number, or the order ID we gave you (e.g. INQ-358778).
-      </p>
-      <button class="btn-track-inquiry" onclick="openTracker()">
-        <i class="fas fa-search"></i> Track My Inquiry
-      </button>
-    </div>
-  </div>
-</section>
+<!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
   <a href="#menu"    onclick="toggleMobileMenu()">Menu</a>
   <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
   <a href="#"        onclick="toggleMobileMenu(); toggleCart()">My Order</a>
