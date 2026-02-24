@@ -798,6 +798,35 @@ function renderInquiryForm(total) {
       <input type="email" id="inqEmail" placeholder="juan@gmail.com"/>
     </div>
 
+    <div class="form-group">
+      <label><i class="fas fa-truck" style="color:var(--red);margin-right:5px;"></i> Order Type *</label>
+      <select id="inqType" onchange="toggleDeliveryFields()">
+        <option value="pickup">🏪 Pickup at Store</option>
+        <option value="delivery">🚚 Delivery</option>
+      </select>
+    </div>
+
+    <div id="deliveryAddressWrap" style="display:none;">
+      <div class="form-group">
+        <label><i class="fas fa-map-marker-alt" style="color:var(--red);margin-right:5px;"></i> Street / House No. / Landmark *</label>
+        <input type="text" id="inqStreet" placeholder="e.g. 123 Rizal St., near 7-Eleven"/>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-map" style="color:var(--red);margin-right:5px;"></i> Barangay *</label>
+        <input type="text" id="inqBarangay" placeholder="e.g. Bulua, Lapasan, Nazareth..."/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>City / Municipality</label>
+          <input type="text" value="Cagayan de Oro City" readonly style="background:#f5f5f5;color:var(--grey);cursor:not-allowed;"/>
+        </div>
+        <div class="form-group">
+          <label>Province</label>
+          <input type="text" value="Misamis Oriental" readonly style="background:#f5f5f5;color:var(--grey);cursor:not-allowed;"/>
+        </div>
+      </div>
+    </div>
+
     <div class="form-row">
       <div class="form-group">
         <label><i class="fas fa-calendar" style="color:var(--red);margin-right:5px;"></i> Pickup / Delivery Date *</label>
@@ -805,13 +834,16 @@ function renderInquiryForm(total) {
       </div>
       <div class="form-group">
         <label><i class="fas fa-clock" style="color:var(--red);margin-right:5px;"></i> Preferred Time *</label>
-        <input type="time" id="inqTime"/>
+        <input type="time" id="inqTime" onchange="validateInqTime(this.value)"/>
+        <small id="inqTimeHint" style="color:var(--grey);font-size:11px;margin-top:4px;display:block;">
+          Store hours: 8:00 AM – 10:00 PM · No delivery 12:00 AM – 4:00 AM
+        </small>
       </div>
     </div>
 
     <div class="form-group">
       <label><i class="fas fa-comment-alt" style="color:var(--red);margin-right:5px;"></i> Special Instructions</label>
-      <textarea id="inqNotes" rows="3" placeholder="Any special requests, delivery address, event details..."></textarea>
+      <textarea id="inqNotes" rows="3" placeholder="Any special requests, event details..."></textarea>
     </div>
 
     <button class="btn-submit-inquiry" id="submitInquiryBtn" onclick="submitInquiry()">
@@ -863,6 +895,41 @@ async function checkDailyLimit(name, email, phone) {
   }
 }
 
+// ── Time validation helpers ───────────────────────────────────
+function isNightTimeBlocked(timeStr) {
+  if (!timeStr) return false;
+  const [h] = timeStr.split(':').map(Number);
+  return h >= 0 && h < 4;
+}
+function isOutsideStoreHours(timeStr) {
+  if (!timeStr) return false;
+  const [h, m] = timeStr.split(':').map(Number);
+  const mins = h * 60 + m;
+  return mins < 8 * 60 || mins > 22 * 60;
+}
+
+window.toggleDeliveryFields = function () {
+  const type    = document.getElementById('inqType')?.value;
+  const wrapper = document.getElementById('deliveryAddressWrap');
+  if (wrapper) wrapper.style.display = (type === 'delivery') ? 'block' : 'none';
+};
+
+window.validateInqTime = function (val) {
+  const hint = document.getElementById('inqTimeHint');
+  const type = document.getElementById('inqType')?.value;
+  if (!hint) return;
+  if (type === 'delivery' && isNightTimeBlocked(val)) {
+    hint.textContent = '⛔ No deliveries from 12:00 AM to 4:00 AM.';
+    hint.style.color = 'var(--red)'; hint.style.fontWeight = '700';
+  } else if (isOutsideStoreHours(val)) {
+    hint.textContent = '⛔ Outside store hours (8:00 AM – 10:00 PM).';
+    hint.style.color = 'var(--red)'; hint.style.fontWeight = '700';
+  } else {
+    hint.textContent = 'Store hours: 8:00 AM – 10:00 PM · No delivery 12:00 AM – 4:00 AM';
+    hint.style.color = 'var(--grey)'; hint.style.fontWeight = '';
+  }
+};
+
 // ── Name: no numbers allowed ─────────────────────────────────
 window.validateInqName = function (val) {
   const hint = document.getElementById('inqNameHint');
@@ -881,12 +948,15 @@ window.validateInqPhone = function (val) {
 };
 
 window.submitInquiry = async function () {
-  const name  = document.getElementById('inqName')?.value?.trim();
-  const phone = document.getElementById('inqPhone')?.value?.trim();
-  const email = document.getElementById('inqEmail')?.value?.trim();
-  const date  = document.getElementById('inqDate')?.value;
-  const time  = document.getElementById('inqTime')?.value;
-  const notes = document.getElementById('inqNotes')?.value?.trim() || '';
+  const name     = document.getElementById('inqName')?.value?.trim();
+  const phone    = document.getElementById('inqPhone')?.value?.trim();
+  const email    = document.getElementById('inqEmail')?.value?.trim();
+  const date     = document.getElementById('inqDate')?.value;
+  const time     = document.getElementById('inqTime')?.value;
+  const notes    = document.getElementById('inqNotes')?.value?.trim() || '';
+  const type     = document.getElementById('inqType')?.value || 'pickup';
+  const street   = document.getElementById('inqStreet')?.value?.trim() || '';
+  const barangay = document.getElementById('inqBarangay')?.value?.trim() || '';
 
   // ── Name: no numbers ────────────────────────────────────────
   if (!name) { showToast('Please enter your full name.', 'error'); return; }
@@ -907,19 +977,31 @@ window.submitInquiry = async function () {
     showToast('Please enter a valid email address!', 'error'); return;
   }
 
+  // ── Time validation ─────────────────────────────────────────
+  if (isOutsideStoreHours(time)) {
+    showToast('Please choose a time within store hours (8:00 AM – 10:00 PM).', 'error'); return;
+  }
+  if (type === 'delivery' && isNightTimeBlocked(time)) {
+    showToast('No deliveries from 12:00 AM to 4:00 AM. Please choose a later time.', 'error'); return;
+  }
+
+  // ── Delivery address validation ─────────────────────────────
+  if (type === 'delivery') {
+    if (!street)   { showToast('Please enter your street / house address.', 'error'); return; }
+    if (!barangay) { showToast('Please enter your barangay.', 'error'); return; }
+  }
+
   const btn = document.getElementById('submitInquiryBtn');
   btn.disabled  = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
 
   try {
-    // ── Rate limit check: max 3 inquiries per day ────────────
     const limit = await checkDailyLimit(name, email, phone);
 
     if (limit.blocked) {
       showToast('You have reached the maximum of 3 inquiries per day. Please try again tomorrow or call us directly.', 'error');
       btn.disabled  = false;
       btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Inquiry to Gene\'s Lechon';
-      // Show a more prominent warning inside the form
       showLimitWarning();
       return;
     }
@@ -927,16 +1009,24 @@ window.submitInquiry = async function () {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
 
     const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const deliveryAddress = type === 'delivery'
+      ? `${street}, ${barangay}, Cagayan de Oro City, Misamis Oriental`
+      : '';
 
-    // ── Build document — email stored lowercase for consistent matching
     const inquiryDoc = {
-      orderId:   `#INQ-${Math.floor(100000 + Math.random() * 900000)}`,
-      customer:  name,
-      email:     email.toLowerCase(),
-      phone:     phone,
-      date:      new Date().toISOString(),
-      orderDate: date,
-      orderTime: time,
+      orderId:          `#INQ-${Math.floor(100000 + Math.random() * 900000)}`,
+      customer:         name,
+      email:            email.toLowerCase(),
+      phone:            phone,
+      date:             new Date().toISOString(),
+      orderDate:        date,
+      orderTime:        time,
+      orderType:        type,
+      deliveryAddress:  deliveryAddress,
+      deliveryStreet:   street,
+      deliveryBarangay: barangay,
+      deliveryCity:     type === 'delivery' ? 'Cagayan de Oro City' : '',
+      deliveryProvince: type === 'delivery' ? 'Misamis Oriental' : '',
       items:     cart.map(i => ({
         id:    i.id,
         name:  i.name,
